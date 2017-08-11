@@ -3,3 +3,6 @@ venv/
 
 # pycharm configurations
 .idea/
+
+# python cache files
+databaseTransaction/__pycache__/
