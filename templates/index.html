@@ -7,4 +7,70 @@
 <div class="page-header">
     <h1>Vote 4 Musics</h1>
 </div>
+<p>老铁们，听完一首歌，勾选你认为这首歌所表达的情感(可以多选)，然后点提交，每首歌曲只能投一次票</p>
+<div class="alert alert-info">
+  <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。
+</div>
+<table class="table table-hover">
+    {% if musics %}
+    <thead>
+        <tr>
+            <th>歌名</th>
+            <th>你认为所表达了哪些情感，选完一首歌后点提交即可</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in musics %}
+        <tr>
+            <td>{{ m[1] }}</td>
+            <td>
+                <form method="post" action="/login">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <label class="checkbox-inline"><input type="checkbox" value="">欢乐的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">思念的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">恐惧的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">不安的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">失落的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">内疚的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">妒忌的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">害羞的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">祝愿的</label>
+                            <br />
+                            <label class="checkbox-inline"><input type="checkbox" value="">赞扬的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">愤怒的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">神圣的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">激昂的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">宏伟的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">庄严的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">安心的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">慌张的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">憎恶的</label>
+                            <br />
+                            <label class="checkbox-inline"><input type="checkbox" value="">贬责的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">惊讶的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">怀疑的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">悲伤的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">温暖的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">友情的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">热恋的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">励志的</label>
+                            <label class="checkbox-inline"><input type="checkbox" value="">忧郁的</label>
+                        </li>
+                        <li class="list-group-item">
+                            <button type="submit" class="btn btn-success btn-xs">提交</button>
+                        </li>
+                    </ul>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <div class="alert alert-warning">
+        <span class="glyphicon glyphicon-info-sign"></span> <strong>Warning!</strong>
+        <p>数据库中没有音乐</p>
+    </div>
+    {% endif %}
+</table>
 {% endblock %}
