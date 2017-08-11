@@ -22,6 +22,7 @@ app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWD'] = 'daimao,./'
 app.config['DB_MUSICS'] = 'musicslib'
+app.config['TABLE_NAME'] = 'musics_info'
 # 防止CSRF攻击的密钥
 app.config['SECRET_KEY'] = 'hard to guess string'
 # 静态文件路径
@@ -35,7 +36,10 @@ cursor = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
+    print(query_statement)
+    musics = dt.query(cursor, query_statement)
+    return render_template('index.html', musics=musics)
 
 
 @app.route('/user/<name>')
