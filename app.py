@@ -36,14 +36,11 @@ cursor = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
-    # user_agent = request.headers.get('User-Agent')
-    # return '<h1>Hello World</h1><p>Your browser is %s</p>' % user_agent
 
 
 @app.route('/user/<name>')
 def user(name):
     return render_template('user.html', name=name)
-    # return '<h1>Hello, %s!</h1>' % name
 
 
 @app.errorhandler(404)
@@ -57,6 +54,5 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
     manager.run()
 
