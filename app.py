@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField
 from wtforms.validators import DataRequired
+from databaseTransaction import dt
 
 
 class EssayForm(FlaskForm):
@@ -13,10 +14,23 @@ class EssayForm(FlaskForm):
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['MUSIC_FOLDER'] = 'static/musics'
 manager = Manager(app)
 bootstrap = Bootstrap(app)
+
+# 连接MYSQL数据库需要的配置信息
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWD'] = 'daimao,./'
+app.config['DB_MUSICS'] = 'musics_info'
+# 防止CSRF攻击的密钥
+app.config['SECRET_KEY'] = 'hard to guess string'
+# 静态文件路径
+app.config['MUSIC_FOLDER'] = 'static/musics'
+
+
+# 服务器启动时，连接数据库
+cursor = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
 
 
 @app.route('/', methods=['GET', 'POST'])
