@@ -21,7 +21,7 @@ bootstrap = Bootstrap(app)
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWD'] = 'daimao,./'
-app.config['DB_MUSICS'] = 'musics_info'
+app.config['DB_MUSICS'] = 'musicslib'
 # 防止CSRF攻击的密钥
 app.config['SECRET_KEY'] = 'hard to guess string'
 # 静态文件路径
