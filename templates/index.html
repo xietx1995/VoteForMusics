@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}文本配乐Demo{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>文本情感配乐Demo</h1>
+    <!--<form method="post">
+        {{ form.hidden_tag() }}
+        {{ form.essay.label(for="essay") }} 
+        {{ form.essay(type="text", class="form-control", cols=50, rows=20) }}
+        {{ form.submit(class="btn btn-primary") }}
+    </form>-->
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">输入文本后，点击提交按钮进行情感分类</h3>
+    </div>
+    <div class="panel-body">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">您输入的文本如下</h3>
+    </div>
+    <div class="panel-body">
+        {% if essay %}
+        <p>{{ essay }}</p>
+        {% else %}
+        <p>无</p>
+        {% endif %}
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">情感分类结果</h3>
+    </div>
+    <div class="panel-body">
+        {% if res == -1 %}
+        <p>对不起，句子中的词语在情感词典中不存在！</p>
+        {% elif res %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>计算方法</th>
+                    <th>音乐类别建议</th>
+                    <th>歌曲推荐</th>
+                    <th>播放歌曲</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in entries %}
+                <tr>
+                    <td>{{ e }}</td>
+                    <td>{{ entries[e][0] }}</td>
+                    <td>{{ entries[e][1] }}</td>
+                    <td>
+                        <audio src="{{ url_for('static', filename=entries[e][2]) }}"
+                               controls="controls" preload="metadata" loop="loop">
+                            浏览器不支持&lt;audio&gt;标签，无法播放音乐
+                        </audio>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>输入文章，点击提交按钮后在此处显示情感分类结果</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
