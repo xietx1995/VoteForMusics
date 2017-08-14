@@ -1,5 +1,5 @@
 # encoding=utf-8
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for, request
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -36,15 +36,33 @@ cursor = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
-    print(query_statement)
-    musics = dt.query(cursor, query_statement)
-    return render_template('index.html', musics=musics)
+    # 构造查询语句
+    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
+
+    # 在session中记录音乐的数量
+    if not session.get('num_musics'):
+        session['num_musics'] = 10
+
+    # 查询音乐信息，并保存在session中
+    musics = session.get('musics', dt.query(cursor, query_statement))
+
+    # 处理POST请求
+    if request.method == 'POST':
+        # 从form中获得用户评价信息，并写入数据库
+
+        session['num_musics'] -= 1              # 更新音乐数量
+        if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
+            return redirect(url_for('finish'))
+        return redirect(url_for('index'))
+
+    # 处理GET请求
+    n = session['num_musics']  # 取得session中音乐的数量
+    return render_template('index.html', music=musics[n-1], n=n)
 
 
-@app.route('/user/<name>')
-def user(name):
-    return render_template('user.html', name=name)
+@app.route('/finish')
+def finish():
+    return render_template('finish.html')
 
 
 @app.errorhandler(404)
@@ -58,5 +76,5 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-    manager.run()
+    app.run(debug=True)
 
