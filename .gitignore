@@ -6,3 +6,6 @@ venv/
 
 # python cache files
 databaseTransaction/__pycache__/
+
+# tests
+tests/
