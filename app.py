@@ -30,8 +30,8 @@ app.config['MUSIC_FOLDER'] = 'static/musics'
 
 
 # 服务器启动时，连接数据库
-cursor = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
-                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                            app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def index():
         session['num_musics'] = 10
 
     # 查询音乐信息，并保存在session中
-    musics = session.get('musics', dt.query(cursor, query_statement))
+    musics = session.get('musics', dt.query(db, query_statement))
 
     n = session['num_musics']  # 取得session中音乐的数量
 
@@ -53,7 +53,7 @@ def index():
         # 从form中获得用户评价信息，并写入数据库
         judge = request.form.getlist('choice')
         entry_id = musics[n-1][0]  # 音乐记录的第零个字段为主键
-        dt.write(cursor, app.config['TABLE_NAME'], entry_id, judge)  # 写数据
+        dt.write(db, app.config['TABLE_NAME'], entry_id, judge)  # 写数据
 
         session['num_musics'] -= 1              # 更新音乐数量
         if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
