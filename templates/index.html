@@ -7,7 +7,7 @@
 <div class="page-header">
     <h1>Vote 4 Musics 音乐情感人工评判系统</h1>
 </div>
-<p>老铁们，听完一首歌，勾选你认为这首歌所表达的情感(可以多选)，然后点提交</p>
+<p>老铁们，听完一首歌，勾选你认为这首歌所表达的情感(可以多选，最多选<span class="badge">4</span>个)，然后点提交</p>
 <div class="panel panel-danger">
     <div class="panel-heading">注意事项</div>
     <div class="panel-body">
@@ -23,6 +23,11 @@
 <div class="alert alert-info">
   <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。歌曲全部听完会显示绿色提示信息。
 </div>
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }}
+</div>
+{% endfor %}
 {% if finish %}
 <div class="alert alert-success">
   <strong>已完成！</strong> 关闭页面即可。
