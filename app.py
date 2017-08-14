@@ -52,12 +52,13 @@ def index():
 
         session['num_musics'] -= 1              # 更新音乐数量
         if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
-            return redirect(url_for('finish'))
+            session['finish'] = True
+            return redirect(url_for('index'))
         return redirect(url_for('index'))
 
     # 处理GET请求
     n = session['num_musics']  # 取得session中音乐的数量
-    return render_template('index.html', music=musics[n-1], n=n)
+    return render_template('index.html', music=musics[n-1], n=n, finish=session.get('finish'))
 
 
 @app.route('/finish')
