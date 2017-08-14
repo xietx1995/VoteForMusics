@@ -1,5 +1,5 @@
 # encoding=utf-8
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, session, redirect, url_for, request, flash
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -52,10 +52,15 @@ def index():
     if request.method == 'POST':
         # 从form中获得用户评价信息，并写入数据库
         judge = request.form.getlist('choice')
+        if len(judge) > 4:
+            flash('最多选4个，请重新选择')
+            return redirect(url_for('index'))
+
         entry_id = musics[n-1][0]  # 音乐记录的第零个字段为主键
         dt.write(db, app.config['TABLE_NAME'], entry_id, judge)  # 写数据
-
         session['num_musics'] -= 1              # 更新音乐数量
+        flash('提交成功，还剩余%d首歌' % session['num_musics'])
+
         if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
             session['finish'] = True
             return redirect(url_for('index'))
