@@ -33,23 +33,24 @@ def connect_to_database(host, user, password, db, charset='utf8'):
     return db  # 返回数据库实例
 
 
-def query(cursor, query_statement):
+def query(db, query_statement):
     """
     执行查询语句，并返回结果
-    :param cursor: 游标
+    :param db: 数据库实例
     :param query_statement: 查询语句
     :return: 查询结果
     """
+    cursor = db.cursor()  # 获得游标
     cursor.execute(query_statement)
     result = cursor.fetchall()
 
     return result  # 返回值为一个元组，每个元素也为一个元组，包含了一条数据库记录
 
 
-def write(cursor, tb_name, entry_id, judge):
+def write(db, tb_name, entry_id, judge):
     """
     将用户评价写入数据库
-    :param cursor: 数据库游标
+    :param db: 数据库实例
     :param tb_name: 表名
     :param entry_id: 记录的id
     :param judge: 用户的评价
@@ -72,4 +73,7 @@ def write(cursor, tb_name, entry_id, judge):
     sql_statement = sql_statement.rstrip(",")
     sql_statement = sql_statement + " WHERE m_id=" + str(entry_id)
     print(sql_statement)
+
+    cursor = db.cursor()  # 获得游标
     cursor.execute(sql_statement)  # 执行sql语句
+    db.commit()  # 提交到数据库执行
