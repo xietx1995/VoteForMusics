@@ -26,12 +26,11 @@ def connect_to_database(host, user, password, db, charset='utf8'):
     :param password: 密码
     :param db: 数据库名
     :param charset: 数据库要使用的字符集
-    :return: 游标
+    :return: 数据库实例
     """
     db = pymysql.connect(host=host, user=user, password=password, db=db, charset=charset)
-    cursor = db.cursor()
 
-    return cursor  # 返回游标
+    return db  # 返回数据库实例
 
 
 def query(cursor, query_statement):
