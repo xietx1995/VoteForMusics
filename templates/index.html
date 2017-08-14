@@ -5,11 +5,23 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Vote 4 Musics</h1>
+    <h1>Vote 4 Musics 音乐情感人工评判系统</h1>
 </div>
-<p>老铁们，听完一首歌，勾选你认为这首歌所表达的情感(可以多选)，然后点提交，每首歌曲只能投一次票</p>
+<p>老铁们，听完一首歌，勾选你认为这首歌所表达的情感(可以多选)，然后点提交</p>
+<div class="panel panel-danger">
+    <div class="panel-heading">注意事项</div>
+    <div class="panel-body">
+        <ul>
+            <li>复制歌名全名，然后在网易云音乐中搜索再播放即可</li>
+            <li>此系统不用登陆，只在一个session内有效，即：不小心关闭了浏览器，重新打开后需要重新投票</li>
+            <li>如果遇到自己已经投过的音乐，可以重新投也可以不重新投</li>
+            <li>如果想重投，直接勾选你认为表达的感情，然后提交即可</li>
+            <li>如果不重投，则不需要勾选任何复选框，直接点提交即可，数据库不会有任何记录</li>
+        </ul>
+    </div>
+</div>
 <div class="alert alert-info">
-  <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。
+  <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。歌曲全部听完会显示绿色提示信息。
 </div>
 {% if finish %}
 <div class="alert alert-success">
