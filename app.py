@@ -49,6 +49,8 @@ def index():
     # 处理POST请求
     if request.method == 'POST':
         # 从form中获得用户评价信息，并写入数据库
+        judge = request.form.getlist('choice')
+        print(judge)
 
         session['num_musics'] -= 1              # 更新音乐数量
         if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
