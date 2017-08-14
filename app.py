@@ -46,11 +46,14 @@ def index():
     # 查询音乐信息，并保存在session中
     musics = session.get('musics', dt.query(cursor, query_statement))
 
+    n = session['num_musics']  # 取得session中音乐的数量
+
     # 处理POST请求
     if request.method == 'POST':
         # 从form中获得用户评价信息，并写入数据库
         judge = request.form.getlist('choice')
-        print(judge)
+        entry_id = musics[n-1][0]  # 音乐记录的第零个字段为主键
+        dt.write(cursor, app.config['TABLE_NAME'], entry_id, judge)  # 写数据
 
         session['num_musics'] -= 1              # 更新音乐数量
         if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
@@ -59,7 +62,6 @@ def index():
         return redirect(url_for('index'))
 
     # 处理GET请求
-    n = session['num_musics']  # 取得session中音乐的数量
     return render_template('index.html', music=musics[n-1], n=n, finish=session.get('finish'))
 
 
