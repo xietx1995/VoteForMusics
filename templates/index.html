@@ -11,6 +11,11 @@
 <div class="alert alert-info">
   <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。
 </div>
+{% if finish %}
+<div class="alert alert-success">
+  <strong>已完成！</strong> 关闭页面即可。
+</div>
+{% else %}
 <table class="table table-hover">
     {% if music %}
     <thead>
@@ -26,35 +31,35 @@
                 <form method="post">
                     <ul class="list-group">
                         <li class="list-group-item" id="choices">
-                            <label class="checkbox-inline"><input type="checkbox" value="">欢乐的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">思念的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">恐惧的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">不安的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">失落的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">内疚的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">妒忌的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">害羞的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">祝愿的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="0">欢乐的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="1">思念的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="2">恐惧的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="3">不安的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="4">失落的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="5">内疚的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="6">妒忌的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="7">害羞的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="8">祝愿的</label>
                             <br />
-                            <label class="checkbox-inline"><input type="checkbox" value="">赞扬的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">愤怒的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">神圣的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">激昂的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">宏伟的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">庄严的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">安心的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">慌张的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">憎恶的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="9">赞扬的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="10">愤怒的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="11">神圣的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="12">激昂的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="13">宏伟的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="14">庄严的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="15">安心的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="16">慌张的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="17">憎恶的</label>
                             <br />
-                            <label class="checkbox-inline"><input type="checkbox" value="">贬责的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">惊讶的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">怀疑的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">悲伤的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">温暖的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">友情的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">热恋的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">励志的</label>
-                            <label class="checkbox-inline"><input type="checkbox" value="">忧郁的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="18">贬责的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="19">惊讶的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="20">怀疑的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="21">悲伤的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="22">温暖的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="23">友情的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="24">热恋的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="25">励志的</label>
+                            <label class="checkbox-inline"><input type="checkbox" name="choice" value="26">忧郁的</label>
                         </li>
                         <li class="list-group-item">
                             <button type="submit" class="btn btn-success">提交<span class="badge">(还剩余{{ n }}首歌)</span></button>
@@ -71,4 +76,5 @@
     </div>
     {% endif %}
 </table>
+{% endif %}
 {% endblock %}
