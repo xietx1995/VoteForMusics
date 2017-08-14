@@ -12,7 +12,7 @@
   <strong>注意歌别听错了！</strong> 最好用网易云音乐听，歌曲都是从那里找的，直接复制完整歌名搜索就行了。
 </div>
 <table class="table table-hover">
-    {% if musics %}
+    {% if music %}
     <thead>
         <tr>
             <th>歌名</th>
@@ -20,13 +20,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for m in musics %}
         <tr>
-            <td>{{ m[1] }}</td>
+            <td>{{ music[1] }}</td>
             <td>
-                <form method="post" action="/login">
+                <form method="post">
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li class="list-group-item" id="choices">
                             <label class="checkbox-inline"><input type="checkbox" value="">欢乐的</label>
                             <label class="checkbox-inline"><input type="checkbox" value="">思念的</label>
                             <label class="checkbox-inline"><input type="checkbox" value="">恐惧的</label>
@@ -58,13 +57,12 @@
                             <label class="checkbox-inline"><input type="checkbox" value="">忧郁的</label>
                         </li>
                         <li class="list-group-item">
-                            <button type="submit" class="btn btn-success btn-xs">提交</button>
+                            <button type="submit" class="btn btn-success">提交<span class="badge">(还剩余{{ n }}首歌)</span></button>
                         </li>
                     </ul>
                 </form>
             </td>
         </tr>
-        {% endfor %}
     </tbody>
     {% else %}
     <div class="alert alert-warning">
