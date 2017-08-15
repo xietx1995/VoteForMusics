@@ -10,3 +10,6 @@ databaseTransaction/__pycache__/
 
 # tests
 tests/
+
+# sql scripts folder
+slqscripts/
