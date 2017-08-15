@@ -45,25 +45,42 @@ def index():
 
     # 查询音乐信息，并保存在session中
     musics = session.get('musics', dt.query(db, query_statement))
-
-    n = session['num_musics']  # 取得session中音乐的数量
+    # 取得session中音乐的数量
+    n = session['num_musics']
 
     # 处理POST请求
     if request.method == 'POST':
         # 从form中获得用户评价信息，并写入数据库
         judge = request.form.getlist('choice')
+
+        # 如果一个都没选，代表跳过
+        if len(judge) == 0:
+            session['num_musics'] -= 1
+            # 如果已经评完，重定向到完成页面
+            if session['num_musics'] == 0:
+                session['finish'] = True
+                return redirect(url_for('index'))
+            return redirect(url_for('index'))
+
+        # 判断选择数量是否符合要求
         if len(judge) > 4:
             flash('最多选4个，请重新选择')
             return redirect(url_for('index'))
 
-        entry_id = musics[n-1][0]  # 音乐记录的第零个字段为主键
-        dt.write(db, app.config['TABLE_NAME'], entry_id, judge)  # 写数据
-        session['num_musics'] -= 1              # 更新音乐数量
+        # 音乐记录的第零个字段为主键
+        entry_id = musics[n-1][0]
+        # 写数据
+        dt.write(db, app.config['TABLE_NAME'], entry_id, judge)
+        # 更新音乐数量
+        session['num_musics'] -= 1
+        # 显示提交成功的提示消息
         flash('提交成功，还剩余%d首歌' % session['num_musics'])
 
-        if session['num_musics'] == 0:          # 如果已经评完，重定向到完成页面
+        # 如果已经评完，重定向到完成页面
+        if session['num_musics'] == 0:
             session['finish'] = True
             return redirect(url_for('index'))
+
         return redirect(url_for('index'))
 
     # 处理GET请求
