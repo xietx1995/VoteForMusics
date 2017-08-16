@@ -29,22 +29,23 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['MUSIC_FOLDER'] = 'static/musics'
 
 
-# 服务器启动时，连接数据库
-db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
-                            app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # 构造查询语句
-    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
-
     # 在session中记录音乐的数量
     if not session.get('num_musics'):
         session['num_musics'] = 10
 
-    # 查询音乐信息，并保存在session中
-    musics = session.get('musics', dt.query(db, query_statement))
+    # 用户第一次访问时，获取音乐信息，并保存在session中
+    if not session.get('musics'):
+        # 构造查询语句
+        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
+        # 连接数据库
+        db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                    app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+        # 查询音乐信息，并保存在session中
+        session['musics'] = dt.query(db, query_statement)
+        db.close()
+
     # 取得session中音乐的数量
     n = session['num_musics']
 
@@ -68,9 +69,14 @@ def index():
             return redirect(url_for('index'))
 
         # 音乐记录的第零个字段为主键
-        entry_id = musics[n-1][0]
+        entry_id = session['musics'][n-1][0]
         # 写数据
+        # 连接数据库
+        db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                    app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
         dt.write(db, app.config['TABLE_NAME'], entry_id, judge)
+        # 断开连接
+        db.close()
         # 更新音乐数量
         session['num_musics'] -= 1
         # 显示提交成功的提示消息
@@ -84,7 +90,7 @@ def index():
         return redirect(url_for('index'))
 
     # 处理GET请求
-    return render_template('index.html', music=musics[n-1], n=n, finish=session.get('finish'))
+    return render_template('index.html', music=session['musics'][n-1], n=n, finish=session.get('finish'))
 
 
 @app.route('/finish')
