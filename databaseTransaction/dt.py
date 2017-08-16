@@ -72,7 +72,7 @@ def write(db, tb_name, entry_id, judge):
         sql_statement = sql_statement + s + "=" + s + "+1,"  # 例如：update tb_name set s1=s1+1,s2=s2+1...
     sql_statement = sql_statement.rstrip(",")
     sql_statement = sql_statement + " WHERE m_id=" + str(entry_id)
-    print(sql_statement)
+    #print(sql_statement)
 
     cursor = db.cursor()  # 获得游标
     cursor.execute(sql_statement)  # 执行sql语句
