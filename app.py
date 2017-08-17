@@ -77,10 +77,11 @@ def index():
 
         # 音乐记录的第零个字段为主键
         entry_id = session['musics'][n-1][0]
-        # 写数据
+
         # 连接数据库
         db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                     app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+        # 写数据
         dt.write(db, app.config['TABLE_NAME'], entry_id, judge)
         # 断开连接
         db.close()
@@ -112,16 +113,36 @@ def guide():
 
 @app.route('/import', methods=['GET', 'POST'])
 def import_musics():
-    verified = False
+    # 在session中保存验证信息
+    if not session.get('verified'):
+        session['verified'] = False
 
+    # 处理POST请求
     if request.method == 'POST':
-        passwd = request.form.get('password')
-        if passwd == app.config['IMPORT_PASSWD']:
-            verified = True
-            return render_template('import.html', verified=True)
+        if not session['verified']:
+            passwd = request.form.get('password')
+            if passwd == app.config['IMPORT_PASSWD']:
+                session['verified'] = True
+                return render_template('import.html', verified=session['verified'])
+            else:
+                flash('Verification code is not correct')
+        else:
+            # 获得歌曲信息
+            names = request.form.getlist('name')
+            urls = request.form.getlist('url')
+            absolutes = request.form.getlist('absolute')
+
+            # 连接数据库
+            db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                        app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+            # 插入新记录
+            dt.insert(db, app.config['TABLE_NAME'], names, absolutes, urls)
+            # 断开连接
+            db.close()
+            flash('Insertion succeeds')
 
     # 处理GET请求
-    return render_template('import.html', verified=verified)
+    return render_template('import.html', verified=session['verified'])
 
 
 @app.errorhandler(404)
