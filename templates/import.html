@@ -4,9 +4,15 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Import new musics</h1>
+    <h1>Import New Musics</h1>
 </div>
 {% if verified %}
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error: </strong>{{ message }}
+    </div>
+{% endfor %}
 <form method="post">
     <table class="table table-bordered">
         <thead>
@@ -72,16 +78,24 @@
     <input type="submit" class="btn btn-success" value="Submit">
 </form>
 {% else %}
-<form method="post">
-    <div class="col-xs-4">
-        <label for="inputs1">Please input verification code to import musics</label>
-        <div class="input-group" id="inputs1">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="password" type="password" class="form-control" name="password" placeholder="Verification code">
-        </div>
-        <hr/>
-        <input type="submit" class="btn btn-success btn-sm" value="Login">
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success: </strong>{{ message }}
     </div>
-</form>
+{% endfor %}
+<div class="row">
+    <div class="col-xs-4">
+        <form method="post">
+            <label for="inputs1">Please input verification code to import musics</label>
+            <div class="input-group" id="inputs1">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Verification code" required="required">
+            </div>
+            <hr/>
+            <input type="submit" class="btn btn-success btn-sm" value="Login">
+        </form>
+    </div>
+</div>
 {% endif %}
 {% endblock %}
