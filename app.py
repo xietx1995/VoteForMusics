@@ -32,6 +32,8 @@ app.config['TABLE_NAME'] = 'musics_info'
 app.config['SECRET_KEY'] = 'hard to guess string'
 # 静态文件路径
 app.config['MUSIC_FOLDER'] = 'static/musics'
+# 音乐导入密码
+app.config['IMPORT_PASSWD'] = 'qwer1234'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,6 +108,20 @@ def finish():
 @app.route('/guide')
 def guide():
     return render_template('guide.html')
+
+
+@app.route('/import', methods=['GET', 'POST'])
+def import_musics():
+    verified = False
+
+    if request.method == 'POST':
+        passwd = request.form.get('password')
+        if passwd == app.config['IMPORT_PASSWD']:
+            verified = True
+            return render_template('import.html', verified=True)
+
+    # 处理GET请求
+    return render_template('import.html', verified=verified)
 
 
 @app.errorhandler(404)
