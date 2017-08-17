@@ -7,7 +7,7 @@ dt.py
 import pymysql
 
 
-sentimens = {0: 's_happy',      1: 's_miss',         2: 's_terrified',
+sentiments = {0: 's_happy',      1: 's_miss',         2: 's_terrified',
              3: 's_troubled',   4: 's_disappointed', 5: 's_guilty',
              6: 's_jealous',    7: 's_shy',          8: 's_wish',
              9: 's_praise',     10: 's_angry',       11: 's_sacred',
@@ -64,7 +64,7 @@ def write(db, tb_name, entry_id, judge):
     # 根据用户选择获得字段名
     choices = []
     for i in list_indices:
-        choices.append(sentimens[i])
+        choices.append(sentiments[i])
 
     # 构造sql语句
     sql_statement = "UPDATE " + tb_name + " SET "
