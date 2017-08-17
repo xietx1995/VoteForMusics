@@ -77,3 +77,41 @@ def write(db, tb_name, entry_id, judge):
     cursor = db.cursor()  # 获得游标
     cursor.execute(sql_statement)  # 执行sql语句
     db.commit()  # 提交到数据库执行
+
+
+def insert(db, tb_name, names, absolutes, urls):
+    """
+    向数据库db的表tb_name插入音乐的名字names、播放链接urls、是否为纯音乐absolutes
+    :param db: 数据库实例
+    :param tb_name: 表名
+    :param names: 歌曲名
+    :param urls: 播放链接
+    :param absolutes: 是否为纯音乐
+    :return: None
+    """
+    # 需要插入的字段，其余字段为默认值
+    fields = " (m_name, m_light, m_playaddr)"
+
+    # 构造记录
+    musics = []
+    num_musics = len(names)
+    for i in range(num_musics):
+        if names[i] == '':
+            break
+        music = "(" + \
+                "'" + names[i] + "'," + \
+                absolutes[i] + "," + \
+                "'" + urls[i] + "'" + \
+                ")"
+        musics.append(music)
+
+    # 构造sql语句
+    sql_statement = "INSERT INTO " + tb_name + fields + " VALUES "
+    for m in musics:
+        sql_statement = sql_statement + m + ","
+
+    sql_statement = sql_statement.rstrip(",")  # 去掉最后一个逗号
+
+    cursor = db.cursor()
+    cursor.execute(sql_statement)
+    db.commit()
