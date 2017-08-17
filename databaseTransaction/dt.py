@@ -8,14 +8,14 @@ import pymysql
 
 
 sentiments = {0: 's_happy',      1: 's_miss',         2: 's_terrified',
-             3: 's_troubled',   4: 's_disappointed', 5: 's_guilty',
-             6: 's_jealous',    7: 's_shy',          8: 's_wish',
-             9: 's_praise',     10: 's_angry',       11: 's_sacred',
-             12: 's_aroused',   13: 's_grand',       14: 's_solemn',
-             15: 's_peaceful',  16: 's_panic',       17: 's_hate',
-             18: 's_criticise', 19: 's_surprise',    20: 's_doubt',
-             21: 's_sad',       22: 's_warm',        23: 's_friendship',
-             24: 's_in_love',   25: 's_motivate',    26: 's_blue'}
+              3: 's_troubled',   4: 's_disappointed', 5: 's_guilty',
+              6: 's_jealous',    7: 's_shy',          8: 's_wish',
+              9: 's_praise',     10: 's_angry',       11: 's_sacred',
+              12: 's_aroused',   13: 's_grand',       14: 's_solemn',
+              15: 's_peaceful',  16: 's_panic',       17: 's_hate',
+              18: 's_criticise', 19: 's_surprise',    20: 's_doubt',
+              21: 's_sad',       22: 's_warm',        23: 's_friendship',
+              24: 's_in_love',   25: 's_motivate',    26: 's_blue'}
 
 
 def connect_to_database(host, user, password, db, charset='utf8'):
