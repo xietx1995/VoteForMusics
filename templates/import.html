@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Vote 4 Musics - Import{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Import new musics</h1>
+</div>
+{% if verified %}
+<form method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>play address</th>
+                <th>absolute music</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="name"></td>
+                <td><input type="text" class="form-control" name="url"></td>
+                <td><input type="text" class="form-control" name="absolute"></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-success" value="Submit">
+</form>
+{% else %}
+<form method="post">
+    <div class="col-xs-4">
+        <label for="inputs1">Please input verification code to import musics</label>
+        <div class="input-group" id="inputs1">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="password" type="password" class="form-control" name="password" placeholder="Verification code">
+        </div>
+        <hr/>
+        <input type="submit" class="btn btn-success btn-sm" value="Login">
+    </div>
+</form>
+{% endif %}
+{% endblock %}
