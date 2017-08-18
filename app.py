@@ -145,6 +145,16 @@ def import_musics():
     return render_template('import.html', verified=session['verified'])
 
 
+@app.route('/query')
+def info():
+    sql_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
+    # 连接数据库
+    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+    musics = dt.query(db, sql_statement)
+    render_template('info.html', musics=musics)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -157,4 +167,3 @@ def internal_server_error(e):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-
