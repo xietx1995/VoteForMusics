@@ -1,5 +1,5 @@
-# python virtual environment
-venv/
+# python virtual environment, version: python2.7
+venv2/
 
 # pycharm configurations
 .idea/
