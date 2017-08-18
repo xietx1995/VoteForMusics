@@ -97,7 +97,7 @@ def insert(db, tb_name, names, absolutes, urls):
     num_musics = len(names)
     for i in range(num_musics):
         if names[i] == '':
-            break
+            continue
         music = "(" + \
                 "'" + names[i] + "'," + \
                 absolutes[i] + "," + \
