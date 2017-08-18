@@ -152,7 +152,7 @@ def info():
     db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                 app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
     musics = dt.query(db, sql_statement)
-    render_template('info.html', musics=musics)
+    return render_template('info.html', musics=musics)
 
 
 @app.errorhandler(404)
