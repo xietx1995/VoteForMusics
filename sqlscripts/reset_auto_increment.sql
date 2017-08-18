@@ -1,0 +1,1 @@
+alter table musicslib.musics_info auto_increment=32
