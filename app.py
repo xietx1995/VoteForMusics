@@ -136,10 +136,10 @@ def import_musics():
             db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                         app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
             # 插入新记录
-            dt.insert(db, app.config['TABLE_NAME'], names, absolutes, urls)
+            num_musics = dt.insert(db, app.config['TABLE_NAME'], names, absolutes, urls)
             # 断开连接
             db.close()
-            flash('Insertion succeeds')
+            flash('inserted %d new musics' % num_musics)
 
     # 处理GET请求
     return render_template('import.html', verified=session['verified'])

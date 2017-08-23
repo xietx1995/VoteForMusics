@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Vote 4 Musics - Statistics{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>音乐情感统计信息</h1>
+</div>
+
+<div class="panel panel-danger">
+    <div class="panel-body">
+        <p>情感为一个向量，从左到右分别是:
+        <p>欢乐的, 思念的, 恐惧的, 不安的, 失落的, 内疚的, 妒忌的, 害羞的, 祝愿的</p>
+        <p>赞扬的, 愤怒的, 神圣的, 激昂的, 宏伟的, 庄严的, 安心的, 慌张的, 憎恶的</p>
+        <p>贬责的, 惊讶的, 怀疑的, 悲伤的, 温暖的, 友情的, 热恋的, 励志的, 忧郁的</p>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>音乐</th>
+            <th>情感</th>
+            <th>是否为轻音乐</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in musics %}
+        <tr>
+            <td>{{ m[1] }}</td>
+            <td>{{ m[2: 29] }}</td>
+            <td>{% if m[29] %} No {% else %} YES {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

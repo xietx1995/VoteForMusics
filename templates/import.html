@@ -4,22 +4,28 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Import New Musics</h1>
+    <h1>导入新的音乐</h1>
 </div>
 {% if verified %}
 {% for message in get_flashed_messages() %}
     <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error: </strong>{{ message }}
+        <strong>Success: </strong>{{ message }}
     </div>
 {% endfor %}
+<div class="panel panel-danger">
+    <div class="panel-body">
+        <p>可以导入多首歌曲，最多10首</p>
+        <p>每一行请填写完整</p>
+    </div>
+</div>
 <form method="post">
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>name</th>
-                <th>play address</th>
-                <th>absolute music</th>
+                <th>歌曲名（格式：演唱者 - 歌曲名，例如：张学友 - 听海）</th>
+                <th>播放地址（例如：http://music.163.com/#/song?id=187908）</th>
+                <th>是否为纯音乐（填1代表是，0代表不是）</th>
             </tr>
         </thead>
         <tbody>

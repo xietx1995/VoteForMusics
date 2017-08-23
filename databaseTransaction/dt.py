@@ -87,16 +87,19 @@ def insert(db, tb_name, names, absolutes, urls):
     :param names: 歌曲名
     :param urls: 播放链接
     :param absolutes: 是否为纯音乐
-    :return: None
+    :return: 导入音乐的数量
     """
     # 需要插入的字段，其余字段为默认值
     fields = " (m_name, m_light, m_playaddr)"
 
     # 构造记录
     musics = []
-    num_musics = len(names)
+    num_musics = len(names)  # 用户输入歌曲的数量
+    num_empty = 0            # 为空的项的数量
+
     for i in range(num_musics):
         if names[i] == '':
+            num_empty += 1
             continue
         music = "(" + \
                 "'" + names[i] + "'," + \
@@ -104,6 +107,9 @@ def insert(db, tb_name, names, absolutes, urls):
                 "'" + urls[i] + "'" + \
                 ")"
         musics.append(music)
+
+    if num_empty == 10:      # 如果用户没有输入歌曲，返回0
+        return 0
 
     # 构造sql语句
     sql_statement = "INSERT INTO " + tb_name + fields + " VALUES "
@@ -115,3 +121,5 @@ def insert(db, tb_name, names, absolutes, urls):
     cursor = db.cursor()
     cursor.execute(sql_statement)
     db.commit()
+
+    return num_musics - num_empty
