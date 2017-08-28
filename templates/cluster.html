@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Vote 4 Musics - Cluster{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>音乐聚类分析</h1>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <form method="post">
+            <label for="inputs1">请输入聚类的类别数:</label>
+            <div class="input-group" id="inputs1">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="k" placeholder="Number of clusters" required="required">
+            </div>
+            <hr/>
+            <input type="submit" class="btn btn-success btn-sm" value="开始聚类分析">
+        </form>
+    </div>
+</div>
+{% endblock %}
