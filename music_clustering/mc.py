@@ -3,8 +3,6 @@
 This module is used to load music data
 """
 from itertools import islice
-from databaseTransaction import dt
-from app import app
 import numpy as np
 from sklearn.cluster import KMeans
 
@@ -44,30 +42,14 @@ def get_sentiments(musics):
     return flt_sentiments
 
 
-def load_data_from_db():
-    """
-    Load music data from database
-    :return: sentiments of music(matrix)
-    """
-    # 构造查询语句
-    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
-    # 连接数据库
-    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
-                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
-    # 查询音乐信息，并保存在session中
-    musics = dt.query(db, query_statement)
-    db.close()
-
-    return np.mat(get_sentiments(musics))
-
-
 def cluster_musics(data_set, k):
     """
     Cluster musics by using k-means algorithm
-    :param data_set: data set
+    :param data_set: data set is a list
     :param k: number of clusters
     :return: A KMeans object
     """
+    data_mat = np.mat(data_set)
     kmeans = KMeans(n_clusters=k, random_state=0).fit(data_set)
 
     return kmeans
