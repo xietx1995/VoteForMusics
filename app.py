@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField
 from wtforms.validators import DataRequired
 from databaseTransaction import dt
+from music_clustering import mc
 import sys
 
 
@@ -152,7 +153,40 @@ def info():
     db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                 app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
     musics = dt.query(db, sql_statement)
+    db.close()
     return render_template('info.html', musics=musics)
+
+
+@app.route('/cluster')
+def cluster():
+    if request.method == 'POST':
+        # 构造查询语句
+        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
+        # 连接数据库
+        db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                    app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+        # 查询音乐信息
+        musics = dt.query(db, query_statement)
+        db.close()
+
+        # 执行聚类算法
+        k = request.form.get('k')
+        sentiments = mc.get_sentiments(musics)
+        kmeans = mc.cluster_musics(list(sentiments), k)
+
+        # 构造聚类字典
+        clusters = {}
+        num_cluster = len(kmeans.cluster_centers_)
+        for i in range(num_cluster):
+            cluster['%d' % i] = []
+
+        labels = kmeans.labels_.tolist()
+        for i in len(musics):
+            cluster[labels[i]].append(musics[i][1])
+
+        return render_template('cluster.html', clusters=clusters)
+
+    return render_template('cluster.html')
 
 
 @app.errorhandler(404)
