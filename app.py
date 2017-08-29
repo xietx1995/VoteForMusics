@@ -159,18 +159,33 @@ def info():
 
 @app.route('/cluster', methods=['GET', 'POST'])
 def cluster():
-    if request.method == 'POST':
-        # 构造查询语句
-        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
-        # 连接数据库
-        db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
-                                    app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
-        # 查询音乐信息
-        musics = dt.query(db, query_statement)
-        db.close()
+    # 构造查询语句
+    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
+    # 连接数据库
+    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+    # 查询音乐信息
+    musics = dt.query(db, query_statement)
+    db.close()
 
+    # 音乐的数量
+    len_m = len(musics)
+
+    if request.method == 'POST':
         # 执行聚类算法
-        k = int(request.form.get('k'))
+        try:
+            k = int(request.form.get('k'))
+        except ValueError:
+            flash("请输入整数")
+            return render_template('cluster.html')
+
+        if k < 1:
+            flash("聚类数必须大于等于1")
+            return render_template('cluster.html')
+        elif k > len_m:
+            flash("聚类数必须小于等于歌曲的数量: %d" % len_m)
+            return render_template('cluster.html')
+
         sentiments = mc.get_sentiments(musics)
         kmeans = mc.cluster_musics(list(sentiments), k)
 
@@ -178,7 +193,7 @@ def cluster():
         clusters = {}
         num_cluster = len(kmeans.cluster_centers_)
         for i in range(num_cluster):
-            clusters['%d' % i] = []
+            clusters['%d' % i] = []  # i用于在页面顺序显示聚类
 
         labels = kmeans.labels_.tolist()
         # print labels
@@ -187,9 +202,9 @@ def cluster():
             clusters['%d' % labels[i]].append(music_info)
 
         # print clusters
-        return render_template('cluster.html', clusters=clusters)
+        return render_template('cluster.html', clusters=clusters, len_m=len_m)
 
-    return render_template('cluster.html')
+    return render_template('cluster.html', len_m=len_m)
 
 
 @app.errorhandler(404)

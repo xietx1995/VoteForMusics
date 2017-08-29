@@ -4,24 +4,29 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>音乐聚类分析</h1>
+    <h1>音乐聚类分析（目前共有{{ len_m }}首歌曲，聚类结果将是无序的列表）</h1>
 </div>
 <div class="row">
     <div class="col-xs-4">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }}
+        </div>
+        {% endfor %}
         <form method="post">
-            <label for="inputs1">请输入聚类的类别数:</label>
-            <div class="input-group" id="inputs1">
-                <input id="password" type="text" class="form-control" name="k" placeholder="Number of clusters" required="required">
+            <div class="form-group">
+                <label for="k">请输入聚类的类别数:</label>
+                <input id="k" type="text" class="form-control" name="k" placeholder="Number of clusters" required="required">
+                <br/>
+                <input type="submit" class="btn btn-success btn-sm" value="开始聚类分析">
             </div>
-            <br/>
-            <input type="submit" class="btn btn-success btn-sm" value="开始聚类分析">
         </form>
     </div>
 </div>
 <hr/>
 {% for clt in clusters %}
-<div class="panel panel-primary">
-    <div class="panel-heading">Luster {{ clt }}</div>
+<div class="panel panel-default">
+    <div class="panel-heading">cluster {{ clt }}</div>
     <div class="panel-body">
     {% for music in clusters[clt] %}
         <a href="{{ music[1] }}" target="_blank" style="margin: 1px;" class="btn btn-default btn-sm">{{ music[0] }}</a>
