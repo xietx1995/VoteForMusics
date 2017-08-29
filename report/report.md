@@ -27,6 +27,8 @@ x^{(1)}_m & x^{(2)}_m & ... & x^{(27)}_m \\
 $$
 当样本足够多的时候，我们可以对音乐进行**聚类分析(Clustering Analysis)**，选取整体效果最好的 $k$ 值作为音乐的类别数量，将 $k$ 累音乐和文本的情感做一一映射，则这 $k$ 类音乐即可用于文本配乐。
 
+<hr/>
+
 聚类(Clustering)的缺点:
 
 * 数据集非常小的时候，效果不明显
@@ -34,24 +36,24 @@ $$
 
 但好在我们的系统不需要实时对音乐进行聚类，所以以上的缺点对我们的工程来说没有任何影响。下面是部分聚类结果降维后的散点图（使用了90首歌曲进行聚类）:
 
-$k=1$：![sample_distribution_1](report/imgs/sample_distribution_1.png)
+$k=1$：![sample_distribution_1](imgs/sample_distribution_1.png)
 
-$k=2$：![sample_distribution_2](report/imgs/sample_distribution_2.png)
+$k=2$：![sample_distribution_2](imgs/sample_distribution_2.png)
 
-$k=3$：![sample_distribution_3](/report/imgs/sample_distribution_3.png)
+$k=3$：![sample_distribution_3](imgs/sample_distribution_3.png)
 
-$k=4$：![sample_distribution_4](/report/imgs/sample_distribution_4.png)
+$k=4$：![sample_distribution_4](imgs/sample_distribution_4.png)
 
-$k=5$：![sample_distribution_5](/report/imgs/sample_distribution_5.png)
+$k=5$：![sample_distribution_5](imgs/sample_distribution_5.png)
 
-$k=6$：![sample_distribution_6](/report/imgs/sample_distribution_6.png)
+$k=6$：![sample_distribution_6](imgs/sample_distribution_6.png)
 
-$k=7$：![sample_distribution_7](/report/imgs/sample_distribution_7.png)
+$k=7$：![sample_distribution_7](imgs/sample_distribution_7.png)
 
-$k=8$：![sample_distribution_8](/report/imgs/sample_distribution_8.png)
+$k=8$：![sample_distribution_8](imgs/sample_distribution_8.png)
 
 所以对于目前的数据集来说，最大值 $k=5$ 能够尽可能多地细化音乐类别，误差也较小。但是，如果想要提高 $k$ 的值，我们还需要更多的数据，并且每首歌还需要更多人标注，才能有更好的聚类结果。
 
-
+<hr/>
 
 基于以上分析，现选择$k=5$作为音乐的类别进行实验
