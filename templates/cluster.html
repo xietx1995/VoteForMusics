@@ -11,12 +11,22 @@
         <form method="post">
             <label for="inputs1">请输入聚类的类别数:</label>
             <div class="input-group" id="inputs1">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input id="password" type="password" class="form-control" name="k" placeholder="Number of clusters" required="required">
+                <input id="password" type="text" class="form-control" name="k" placeholder="Number of clusters" required="required">
             </div>
-            <hr/>
+            <br/>
             <input type="submit" class="btn btn-success btn-sm" value="开始聚类分析">
         </form>
     </div>
 </div>
+<hr/>
+{% for clt in clusters %}
+<div class="panel panel-primary">
+    <div class="panel-heading">Luster {{ clt }}</div>
+    <div class="panel-body">
+    {% for music in clusters[clt] %}
+        <a href="{{ music[1] }}" target="_blank" style="margin: 1px;" class="btn btn-default btn-sm">{{ music[0] }}</a>
+    {% endfor %}
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

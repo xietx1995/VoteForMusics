@@ -157,11 +157,11 @@ def info():
     return render_template('info.html', musics=musics)
 
 
-@app.route('/cluster')
+@app.route('/cluster', methods=['GET', 'POST'])
 def cluster():
     if request.method == 'POST':
         # 构造查询语句
-        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
+        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
         # 连接数据库
         db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                     app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
@@ -170,7 +170,7 @@ def cluster():
         db.close()
 
         # 执行聚类算法
-        k = request.form.get('k')
+        k = int(request.form.get('k'))
         sentiments = mc.get_sentiments(musics)
         kmeans = mc.cluster_musics(list(sentiments), k)
 
@@ -178,12 +178,15 @@ def cluster():
         clusters = {}
         num_cluster = len(kmeans.cluster_centers_)
         for i in range(num_cluster):
-            cluster['%d' % i] = []
+            clusters['%d' % i] = []
 
         labels = kmeans.labels_.tolist()
-        for i in len(musics):
-            cluster[labels[i]].append(musics[i][1])
+        # print labels
+        for i in range(len(musics)):
+            music_info = [musics[i][1], musics[i][-1]]  # 歌名和播放地址
+            clusters['%d' % labels[i]].append(music_info)
 
+        # print clusters
         return render_template('cluster.html', clusters=clusters)
 
     return render_template('cluster.html')
