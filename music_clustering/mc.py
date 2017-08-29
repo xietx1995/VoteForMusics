@@ -49,7 +49,7 @@ def cluster_musics(data_set, k):
     :param k: number of clusters
     :return: A KMeans object
     """
-    data_mat = np.mat(data_set)
-    kmeans = KMeans(n_clusters=k, random_state=0).fit(data_set)
+    data_mat = np.mat(data_set)  # convert list to matrix
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(data_mat)
 
     return kmeans
