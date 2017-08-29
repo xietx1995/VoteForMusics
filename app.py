@@ -19,7 +19,7 @@ class EssayForm(FlaskForm):
     submit = SubmitField('提交')
 
 
-app = Flask(__name__, static_url_path='/report')
+app = Flask(__name__)
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 
@@ -205,11 +205,6 @@ def cluster():
         return render_template('cluster.html', clusters=clusters, len_m=len_m)
 
     return render_template('cluster.html', len_m=len_m)
-
-
-@app.route('/report')
-def report():
-    return app.send_static_file('report.html')
 
 
 @app.errorhandler(404)
