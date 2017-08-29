@@ -1,6 +1,5 @@
 # coding=utf-8
 from sklearn.decomposition import PCA
-from mpl_toolkits.mplot3d import Axes3D
 from music_clustering import mc
 from app import app
 from databaseTransaction import dt
@@ -8,10 +7,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def decomp(data_mat, n=3):
+def decomp(data_mat, labels=None, n=3):
     """
     对数据data_mat进行降维，默认降到3维
     :param data_mat: 数据集
+    :param labels: 标签
     :param n: 目标维度
     :return: None
     """
@@ -20,11 +20,14 @@ def decomp(data_mat, n=3):
     data_new = pca.transform(data_mat)
 
     fig = plt.figure()
-    ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)
-    plt.scatter(data_new[:, 0], data_new[:, 1], data_new[:, 2], marker='o')
+    ax = fig.add_subplot(111, projection='3d')
+    # ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)
+    size = labels + 20
+    ax.scatter(data_new[:, 0], data_new[:, 1], data_new[:, 2], marker='o', s=np.array(size), c=labels)
+    plt.show()
 
 
-def test():
+def test(target_n=5):
     # 构造查询语句
     query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
     # 连接数据库
@@ -36,6 +39,7 @@ def test():
 
     # 获取音乐情感矩阵
     sent_mat = np.mat(mc.get_sentiments(musics))
+    kmeans = mc.cluster_musics(sent_mat, target_n)
 
     # 降维
-    decomp(sent_mat)
+    decomp(sent_mat, kmeans.labels_)
