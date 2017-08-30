@@ -12,3 +12,6 @@ tests/
 
 # sql scripts folder
 slqscripts/
+
+# temp imgs
+static/imgs/
