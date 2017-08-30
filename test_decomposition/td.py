@@ -1,16 +1,18 @@
 # coding=utf-8
 from sklearn.decomposition import PCA
 from music_clustering import mc
-from app import app
+#from app import app
 from databaseTransaction import dt
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 
-def decomp(data_mat, labels=None, n=3):
+def decomp(data_mat, filename, labels=None, n=3):
     """
     对数据data_mat进行降维，默认降到3维
     :param data_mat: 数据集
+    :param filename: 文件名
     :param labels: 标签
     :param n: 目标维度
     :return: None
@@ -24,22 +26,23 @@ def decomp(data_mat, labels=None, n=3):
     # ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)
     size = labels + 20
     ax.scatter(data_new[:, 0], data_new[:, 1], data_new[:, 2], marker='o', s=np.array(size), c=labels)
-    plt.show()
+    # plt.show()
+    plt.savefig('static/imgs/%s' % filename)
 
 
-def test(target_n=5):
+#def test(target_n=5):
     # 构造查询语句
-    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
+    #query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
     # 连接数据库
-    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
-                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+    #db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+    #                            app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
     # 查询音乐信息
-    musics = dt.query(db, query_statement)
-    db.close()
+    #musics = dt.query(db, query_statement)
+    #db.close()
 
     # 获取音乐情感矩阵
-    sent_mat = np.mat(mc.get_sentiments(musics))
-    kmeans = mc.cluster_musics(sent_mat, target_n)
+    #sent_mat = np.mat(mc.get_sentiments(musics))
+    #kmeans = mc.cluster_musics(sent_mat, target_n)
 
     # 降维
-    decomp(sent_mat, kmeans.labels_)
+    #decomp(sent_mat, kmeans.labels_)

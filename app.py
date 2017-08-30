@@ -7,7 +7,10 @@ from wtforms import TextAreaField, SubmitField
 from wtforms.validators import DataRequired
 from databaseTransaction import dt
 from music_clustering import mc
+from test_decomposition import td
 import sys
+import time
+import numpy as np
 
 
 reload(sys)
@@ -188,6 +191,8 @@ def cluster():
 
         sentiments = mc.get_sentiments(musics)
         kmeans = mc.cluster_musics(list(sentiments), k)
+        img_filename = str(time.time()) + '.png'
+        td.decomp(np.mat(sentiments), img_filename, kmeans.labels_)
 
         # 构造聚类字典
         clusters = {}
@@ -202,7 +207,7 @@ def cluster():
             clusters['%d' % labels[i]].append(music_info)
 
         # print clusters
-        return render_template('cluster.html', clusters=clusters, len_m=len_m)
+        return render_template('cluster.html', clusters=clusters, len_m=len_m, img_filename=img_filename)
 
     return render_template('cluster.html', len_m=len_m)
 

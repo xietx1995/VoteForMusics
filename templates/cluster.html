@@ -24,6 +24,12 @@
     </div>
 </div>
 <hr/>
+<div class="panel panel-default">
+    <div class="panel-heading">3D降维图示</div>
+    <div class="panel-body">
+        <img src="{{ url_for('static', filename='imgs/') }}{{ img_filename }}">
+    </div>
+</div>
 {% for clt in clusters %}
 <div class="panel panel-default">
     <div class="panel-heading">cluster {{ clt }}</div>
