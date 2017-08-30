@@ -180,14 +180,14 @@ def cluster():
             k = int(request.form.get('k'))
         except ValueError:
             flash("请输入整数")
-            return render_template('cluster.html')
+            return render_template('cluster.html', len_m=len_m)
 
         if k < 1:
             flash("聚类数必须大于等于1")
-            return render_template('cluster.html')
+            return render_template('cluster.html', len_m=len_m)
         elif k > len_m:
             flash("聚类数必须小于等于歌曲的数量: %d" % len_m)
-            return render_template('cluster.html')
+            return render_template('cluster.html', len_m=len_m)
 
         sentiments = mc.get_sentiments(musics)
         kmeans = mc.cluster_musics(list(sentiments), k)
