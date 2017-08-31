@@ -21,6 +21,9 @@ sentiment_map = {'NB': str_sad, 'NJ': str_sad, 'NH': str_sad, 'NI': str_sad,
                  'PK': str_lyc, 'PB': str_lyc,
                  'NA': str_amz, 'PC': str_amz}
 
+# 下面是聚类和情感的映射
+cluster_sent_map = {str_sad: 2, str_hap: 0, str_lyc: 1, str_amz: 3}
+
 
 def word_segmentation(essay):
     """

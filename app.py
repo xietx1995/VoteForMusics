@@ -49,7 +49,7 @@ def index():
     # 用户第一次访问时，获取音乐信息，并保存在session中
     if not session.get('musics'):
         # 构造查询语句
-        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 10'
+        query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' LIMIT 80, 10'
         # 连接数据库
         db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
                                     app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
@@ -237,10 +237,25 @@ def admin_cluster(k):
 @app.route('/analysis/<essay>')
 def analysis(essay):
     from sentimentAnalysis import sa  # 导入情感分析模块
+    print essay
     word_list = sa.word_segmentation(essay=essay)  # 分词
     word_freq = sa.frequency_count(word_list)  # 词频统计
     word_info = sa.make_query(word_freq)  # 获得词语信息
     sentiment = sa.method_weighted_word_freq(word_info=word_info, word_freq=word_freq)  # 获得情感分类
+    cluster_id = sa.cluster_sent_map[sentiment]  # 获得情感对应的聚类标签
+
+    # 查询cluster内的歌曲
+    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME'] + ' WHERE m_cluster=' + str(cluster_id)
+    # 连接数据库
+    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+    # 查询音乐信息
+    musics = dt.query(db, query_statement)
+
+    import random
+    res = musics[random.randint(0, len(musics)-1)]  # 随机选择一首cluster内的歌曲
+
+    return '%s' % res[-1]
 
 
 @app.errorhandler(404)
