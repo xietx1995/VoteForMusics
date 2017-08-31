@@ -212,6 +212,37 @@ def cluster():
     return render_template('cluster.html', len_m=len_m)
 
 
+# 此路由用于将聚类结果写入数据库
+@app.route('/admin/cluster/<int:k>')
+def admin_cluster(k):
+    # 构造查询语句
+    query_statement = 'SELECT * FROM ' + app.config['TABLE_NAME']
+    # 连接数据库
+    db = dt.connect_to_database(app.config['MYSQL_HOST'], app.config['MYSQL_USER'],
+                                app.config['MYSQL_PASSWD'], app.config['DB_MUSICS'])
+    # 查询音乐信息
+    musics = dt.query(db, query_statement)
+
+    sentiments = mc.get_sentiments(musics)  # 获得情感列表
+    # print 'sentiments:'
+    # print sentiments
+    # print 'k:', k
+    kmeans = mc.cluster_musics(list(sentiments), int(k))  # 聚类
+    mc.write_cluster_to_database(kmeans.labels_.tolist(), db, app.config['TABLE_NAME'])
+    db.close()
+
+    return 'Succeed'
+
+
+@app.route('/analysis/<essay>')
+def analysis(essay):
+    from sentimentAnalysis import sa  # 导入情感分析模块
+    word_list = sa.word_segmentation(essay=essay)  # 分词
+    word_freq = sa.frequency_count(word_list)  # 词频统计
+    word_info = sa.make_query(word_freq)  # 获得词语信息
+    sentiment = sa.method_weighted_word_freq(word_info=word_info, word_freq=word_freq)  # 获得情感分类
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -223,4 +254,4 @@ def internal_server_error(e):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
